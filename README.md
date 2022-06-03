@@ -13,3 +13,8 @@
 - .Net Core Test Explorer 
 - .Net Install Tool for Extension Authors
 
+# Executando o codigo do curso
+- dotnet tool uninstall --global dotnet-ef
+- dotnet tool install --global dotnet-ef --version 5.0.2
+- dotnet tool list -g
+
