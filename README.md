@@ -18,3 +18,16 @@
 - dotnet tool install --global dotnet-ef --version 5.0.2
 - dotnet tool list -g
 
+# EF Core 5
+- Instalando EF Core
+> dotnet tool list --global
+> dotnet tool install --global dotnet-ef --version 5.0.2
+- Referencias EF Core
+> Microsoft.EntityFrameworkCore 5.0.2
+> Microsoft.EntityFrameworkCore.Design 5.0.2
+> Microsoft.EntityFrameworkCore.Tools 5.0.2
+> Microsoft.EntityFrameworkCore.Sqlite 5.0.2
+- Migrations e Database
+> dotnet ef migrations list  
+> dotnet ef migrations add Initial -o Data/Migrations
+> dotnet ef database update 
