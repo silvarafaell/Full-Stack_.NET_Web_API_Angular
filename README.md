@@ -31,3 +31,32 @@
 > dotnet ef migrations list  
 > dotnet ef migrations add Initial -o Data/Migrations
 > dotnet ef database update 
+
+# Angular - Introdução
+- Instalacoes
+> npm i -g @angular/cli@12
+- Extensoes VS Code
+> Angular Essentials (Version 11)
+> Angular Files
+> Angular Language Service
+> Auto Close Tag
+> Auto Rename Tag
+> Bracket Pair Colorizer 2
+> Color Highlight
+> Debugger for Chrome
+> EditorConfig for VS Code 
+> GitLens - 
+> Path Intellisense
+> TSLint
+- Criando Projeto
+> npm --version
+> node -v
+> ng --version - Versao do Angular
+> ng new ProEventos-App
+- Gerando Componentes 
+>  ng g c eventos
+> Por Extensao
+- Adicionando Bootstrap
+> npm install --save @fortawesome/fontawesome-free
+> npm install ngx-bootstrap --save
+> npm install bootstrap@4
