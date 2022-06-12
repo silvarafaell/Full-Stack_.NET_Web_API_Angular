@@ -14,7 +14,7 @@ namespace ProEventos.Persistence
         {
             _context = context;
         }
-        
+
         public async Task<Evento> GetAllEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
             IQueryable<Evento> query = _context.Eventos
@@ -71,6 +71,6 @@ namespace ProEventos.Persistence
             return await query.ToArrayAsync();
         }
 
-        
+
     }
 }
