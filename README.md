@@ -60,3 +60,21 @@
 > npm install --save @fortawesome/fontawesome-free
 > npm install ngx-bootstrap --save
 > npm install bootstrap@4
+
+# .Net 5 - Multiplas Camadas
+- Solução e Projetos
+> dotnet new sln -n ProEventos
+> dotnet new classlib -n ProEventos.Persistence
+> dotnet new classlib -n ProEventos.Domain
+> dotnet new classlib -n ProEventos.Application
+- Referenciando Projetos
+> dotnet sln ProEventos.sln add ProEventos.Application
+> dotnet sln ProEventos.sln add ProEventos.Domain
+> dotnet sln ProEventos.sln add ProEventos.API
+> dotnet sln ProEventos.sln add ProEventos.Persistence
+> dotnet build
+> dotnet add ProEventos.API/ProEventos.API.csproj reference ProEventos.Application
+- Migrations
+> dotnet ef migrations add Initial -p  ProEventos.Persistence -s ProEventos.API
+- database update
+> dotnet ef database update -s ProEventos.API
