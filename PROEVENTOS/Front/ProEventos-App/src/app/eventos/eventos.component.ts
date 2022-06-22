@@ -11,9 +11,9 @@ export class EventosComponent implements OnInit {
 
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
-  public larguraImagem: number = 150;
-  public margemImagem: number = 2;
-  public exibirImagem: boolean = true;
+  public larguraImagem = 150;
+  public margemImagem = 2;
+  public exibirImagem = true;
   private _filtroLista: string = '';
 
   public get filtroLista(): string {
@@ -30,7 +30,7 @@ export class EventosComponent implements OnInit {
     return this.eventos.filter(
       (evento: any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
       evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    )
+    );
   }
 
   constructor(private eventoService: EventoService) { }
