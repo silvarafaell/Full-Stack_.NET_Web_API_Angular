@@ -13,6 +13,8 @@ import { NavComponent } from './Nav/Nav.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormsModule } from '@angular/forms';
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
     HttpClientModule,
     BrowserAnimationsModule,
     CollapseModule.forRoot(),
-    FormsModule
+    FormsModule,
+    TooltipModule.forRoot(),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     EventoService
