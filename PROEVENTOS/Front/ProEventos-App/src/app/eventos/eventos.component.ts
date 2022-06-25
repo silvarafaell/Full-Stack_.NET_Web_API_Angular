@@ -2,6 +2,7 @@ import { EventoService } from './../services/Evento.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Evento } from '../models/Evento';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-eventos',
@@ -37,7 +38,8 @@ export class EventosComponent implements OnInit {
 
   constructor(
     private eventoService: EventoService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private toastr: ToastrService
     ) { }
 
   public ngOnInit(): void {
@@ -64,6 +66,7 @@ export class EventosComponent implements OnInit {
 
   confirm(): void {
     this.modalRef?.hide();
+    this.toastr.success('O Evento foi deletado com Sucesso.', 'Deletado!');
   }
 
   decline(): void {
