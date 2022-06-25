@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { EventosComponent } from './components/eventos/eventos.component';
 import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { NavComponent } from './Nav/Nav.component';
+import { NavComponent } from './shared/Nav/Nav.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FormsModule } from '@angular/forms';
