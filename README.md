@@ -85,3 +85,5 @@
 > npm install @angular/animations --save
 - NGX Spinner - Carregando
 > npm install ngx-spinner --save
+
+# Angular - Ractive Forms e Mudança de Layout 
