@@ -46,7 +46,7 @@ import { NgxSpinnerModule } from 'ngx-spinner'
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
-      timeOut: 4000,
+      timeOut: 2000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       progressBar: true
