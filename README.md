@@ -78,3 +78,12 @@
 > dotnet ef migrations add Initial -p  ProEventos.Persistence -s ProEventos.API
 - database update
 > dotnet ef database update -s ProEventos.API
+
+# Angular - Organizar, Rota, Alert e +
+- Adicionando NGX Toastr
+> npm install ngx-toastr --save
+> npm install @angular/animations --save
+- NGX Spinner - Carregando
+> npm install ngx-spinner --save
+
+# Angular - Ractive Forms e Mudança de Layout 
