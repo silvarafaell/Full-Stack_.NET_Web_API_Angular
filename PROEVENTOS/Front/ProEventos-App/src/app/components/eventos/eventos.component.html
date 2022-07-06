@@ -1,13 +1,8 @@
-<app-titulo [titulo]="'Eventos'"></app-titulo>
+<app-titulo [titulo]="'Eventos'" [iconClass]="'fa fa-calendar-alt'" [botaoListar]="true"></app-titulo>
 <div class="form-inline">
   <div class="form-group mb-2">
     <label class="mr-2">Filtro: </label>
-    <input
-      type="text"
-      class="form-control mr-2"
-      placeholder="buscar"
-      [(ngModel)]="filtroLista"
-    />
+    <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista" />
   </div>
 </div>
 <!-- <h3>Filtro: {{ filtroLista }}</h3> -->
@@ -32,13 +27,8 @@
   <tbody *ngIf="eventos && eventos.length">
     <tr *ngFor="let evento of eventosFiltrados">
       <td>
-        <img
-          [collapse]="!exibirImagem"
-          [isAnimated]="true"
-          src="/assets/{{ evento.imagemURL }}"
-          [style.width.px]="larguraImagem"
-          [style.margin.px]="margemImagem"
-        />
+        <img [collapse]="!exibirImagem" [isAnimated]="true" src="/assets/{{ evento.imagemURL }}"
+          [style.width.px]="larguraImagem" [style.margin.px]="margemImagem" />
       </td>
       <td>{{ evento.id }}</td>
       <td>{{ evento.tema }}</td>
@@ -50,12 +40,7 @@
         <button type="button" class="btn btn-primary btn-sm" tooltip="Editar">
           <i class="fa fa-edit"></i>
         </button>
-        <button
-          type="button"
-          class="btn btn-danger btn-sm"
-          tooltip="Excluir"
-          (click)="openModal(template)"
-        >
+        <button type="button" class="btn btn-danger btn-sm" tooltip="Excluir" (click)="openModal(template)">
           <i class="fa fa-trash"></i>
         </button>
       </td>
