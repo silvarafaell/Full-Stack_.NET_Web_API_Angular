@@ -22,6 +22,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
+import { EventoListaComponent } from './components/eventos/evento-lista/evento-lista.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PerfilComponent,
     NavComponent,
     TituloComponent,
-    DateTimeFormatPipe
+    DateTimeFormatPipe,
+    EventoDetalheComponent,
+    EventoListaComponent
    ],
   imports: [
     BrowserModule,
