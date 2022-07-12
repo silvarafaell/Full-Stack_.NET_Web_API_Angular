@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -36,7 +37,7 @@ export class EventoListaComponent implements OnInit {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter(
       (evento: any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-      evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+        evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     );
   }
 
@@ -44,8 +45,9 @@ export class EventoListaComponent implements OnInit {
     private eventoService: EventoService,
     private modalService: BsModalService,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
-    ) { }
+    private spinner: NgxSpinnerService,
+    private router: Router
+  ) { }
 
   public ngOnInit(): void {
     this.spinner.show();
@@ -71,7 +73,7 @@ export class EventoListaComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   confirm(): void {
@@ -83,5 +85,8 @@ export class EventoListaComponent implements OnInit {
     this.modalRef?.hide();
   }
 
+  detalheEvento(id: number): void {
+    this.router.navigate([`eventos/detalhe/${id}`]);
+  }
 
 }
