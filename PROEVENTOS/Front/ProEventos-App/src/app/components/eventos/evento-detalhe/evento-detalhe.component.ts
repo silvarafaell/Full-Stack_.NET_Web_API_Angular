@@ -31,4 +31,9 @@ export class EventoDetalheComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     });
   }
+
+  public resertForm(): void {
+    this.form.reset();
+  }
+
 }
