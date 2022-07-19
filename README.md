@@ -87,3 +87,12 @@
 > npm install ngx-spinner --save
 
 # Angular - Ractive Forms e Mudança de Layout 
+- Referencias Bootswatch
+> npm install bootswatch
+- Subcomponentes e subRotas
+> ng g c components/eventos/evento-detalhe --module app
+> ng g c components/eventos/evento-lista --module app
+- User, Login e Registration
+> ng g c components/user --module app
+> ng g c components/user/login --module app
+> ng g c components/user/registration --module app
