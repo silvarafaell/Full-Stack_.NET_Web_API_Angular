@@ -45,25 +45,29 @@ namespace ProEventos.Application
 
         public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
         {
-            return null;
-            //try
-            //{
-            //    var evento = await _eventoPersist.GetAllEventoByIdAsync(eventoId, false);
-            //    if (evento == null) return null;
+            try
+            {
+                var evento = await _eventoPersist.GetAllEventoByIdAsync(eventoId, false);
+                if (evento == null) return null;
 
-            //    model.Id = evento.Id;
+                model.Id = evento.Id;
 
-            //    _geralPersist.Update(model);
-            //    if (await _geralPersist.SaveChangesAsync())
-            //    {
-            //        return await _eventoPersist.GetAllEventoByIdAsync(model.Id, false);
-            //    }
-            //    return null;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception(ex.Message);
-            //}
+                _mapper.Map(model, evento);
+
+                _geralPersist.Update<Evento>(evento);
+
+                if (await _geralPersist.SaveChangesAsync())
+                {
+                    var eventoRetorno = await _eventoPersist.GetAllEventoByIdAsync(evento.Id, false);
+
+                    return _mapper.Map<EventoDto>(eventoRetorno);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> DeleteEvento(int eventoId)
