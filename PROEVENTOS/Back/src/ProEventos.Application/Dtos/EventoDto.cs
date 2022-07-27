@@ -10,6 +10,8 @@ namespace ProEventos.Application.Dtos
         public string DataEvento { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatorio.")]
+        [MinLength(3, ErrorMessage = "{0} deve ter no minimo 4 caracteres.")]
+        [MaxLength(50, ErrorMessage = "{0} deve ter no máximo 50 caracteres.")]
         public string Tema { get; set; }
         public int QtdPessoas { get; set; }
         public string ImagemURL { get; set; }
