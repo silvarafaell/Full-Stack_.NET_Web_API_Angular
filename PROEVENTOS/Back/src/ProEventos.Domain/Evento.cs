@@ -5,16 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProEventos.Domain
 {
-    //[Table("Eventos")]
     public class Evento
     {
         public int Id { get; set; }
         public string Local { get; set; }
 
-        //[NotMapped] Ignora o campo, não vai ser criado no Banco de dados
         public DateTime? DataEvento { get; set; }
 
-        [Required] // Deixa Obrigatorio
+        [Required]
         public string Tema { get; set; }
         public int QtdPessoas { get; set; }
         public string ImagemURL { get; set; }
