@@ -23,6 +23,7 @@ export class EventoListaComponent implements OnInit {
   public margemImagem = 2;
   public exibirImagem = true;
   private _filtroLista: string = '';
+  public eventoId = 0;
 
   public get filtroLista(): string {
     return this._filtroLista;
@@ -72,7 +73,9 @@ export class EventoListaComponent implements OnInit {
     });
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(event: any, template: TemplateRef<any>, eventoId: number): void {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
