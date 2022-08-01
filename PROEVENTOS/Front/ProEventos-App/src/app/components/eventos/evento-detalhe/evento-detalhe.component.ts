@@ -44,7 +44,7 @@ export class EventoDetalheComponent implements OnInit {
 
     if (eventoIdParam !== null) {
       this.spinner.show();
-      this.eventoService.getEventosById(+eventoIdParam).subscribe(
+      this.eventoService.getEventoById(+eventoIdParam).subscribe(
         (evento: Evento) => {
           this.evento = { ...evento };
           this.form.patchValue(this.evento);
