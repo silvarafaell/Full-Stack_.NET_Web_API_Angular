@@ -84,4 +84,22 @@ export class EventoDetalheComponent implements OnInit {
     return { 'is-invalid': campoForm.errors && campoForm.touched };
   }
 
+  public salvarAlteracao(): void {
+    this.spinner.show();
+
+    if (this.form.valid) {
+
+      this.evento = { ...this.form.value };
+
+      this.eventoService.postEvento(this.evento).subscribe(
+        () => this.toastr.success('Evento salvo com Sucesso!', 'Sucesso'),
+        (error: any) => {
+          console.error(error);
+          this.spinner.hide();
+          this.toastr.error('Error ao salvar evento', 'Erro');
+        },
+        () => this.spinner.hide()
+      );
+    }
+  }
 }
