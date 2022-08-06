@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ProEventos.Application.Contratos;
@@ -43,26 +44,35 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<LoteDto> UpdateEvento(int eventoId, LoteDto model)
+        public async Task<LoteDto[]> SaveLotes(int eventoId, LoteDto[] models)
         {
             try
             {
-                var evento = await _eventoPersist.GetAllEventoByIdAsync(eventoId, false);
-                if (evento == null) return null;
+                var lotes = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
+                if (lotes == null) return null;
 
-                model.Id = evento.Id;
-
-                _mapper.Map(model, evento);
-
-                _geralPersist.Update<Evento>(evento);
-
-                if (await _geralPersist.SaveChangesAsync())
+                foreach(var model in models)
                 {
-                    var eventoRetorno = await _eventoPersist.GetAllEventoByIdAsync(evento.Id, false);
+                    if(model.Id == 0)
+                    {
 
-                    return _mapper.Map<LoteDto>(eventoRetorno);
-                }
-                return null;
+                    }
+                    else
+                    {
+                        var lote = lotes.FirstOrDefault(lote => lote.Id == model.Id);
+                        model.EventoId = eventoId;
+
+                        _mapper.Map(model, lote);
+
+                        _geralPersist.Update<Lote>(lote);
+
+                        await _geralPersist.SaveChangesAsync();
+                    }
+                }    
+
+                    var loteRetorno = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
+
+                    return _mapper.Map<LoteDto[]>(loteRetorno);
             }
             catch (Exception ex)
             {
