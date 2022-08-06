@@ -15,7 +15,7 @@ namespace ProEventos.Persistence
             _context = context;
         }
 
-        public async Task<Lote> GetLoteByIdAsync(int eventoId, int id)
+        public async Task<Lote> GetLoteByIdsAsync(int eventoId, int id)
         {
             IQueryable<Lote> query = _context.Lotes;
 
