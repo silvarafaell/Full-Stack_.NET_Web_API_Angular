@@ -19,6 +19,10 @@ export class EventoDetalheComponent implements OnInit {
   form!: FormGroup;
   estadoSalvar = 'post';
 
+  get modoEditar(): boolean {
+    return this.estadoSalvar === 'put';
+  }
+
   get lotes(): FormArray {
     return this.form.get('lotes') as FormArray;
   }
