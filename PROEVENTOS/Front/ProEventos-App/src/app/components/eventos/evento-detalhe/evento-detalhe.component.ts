@@ -1,3 +1,4 @@
+import { LoteService } from './../../../services/lote.service';
 import { Lote } from '@app/models/Lote';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,6 +16,7 @@ import { Evento } from '@app/models/Evento';
 })
 export class EventoDetalheComponent implements OnInit {
 
+  eventoId: number;
   evento = {} as Evento;
   form!: FormGroup;
   estadoSalvar = 'post';
@@ -46,19 +48,20 @@ export class EventoDetalheComponent implements OnInit {
     private eventoService: EventoService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private router: Router) {
+    private router: Router,
+    private loteService: LoteService) {
     this.localeService.use('pt-br');
   }
 
   public carregarEvento(): void {
-    const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
+    this.eventoId = +this.activatedRouter.snapshot.paramMap.get('id');
 
-    if (eventoIdParam !== null) {
+    if (this.eventoId !== null || this.eventoId === 0) {
       this.spinner.show();
 
       this.estadoSalvar = 'put';
 
-      this.eventoService.getEventoById(+eventoIdParam).subscribe(
+      this.eventoService.getEventoById(this.eventoId).subscribe(
         (evento: Evento) => {
           this.evento = { ...evento };
           this.form.patchValue(this.evento);
@@ -114,7 +117,7 @@ export class EventoDetalheComponent implements OnInit {
     return { 'is-invalid': campoForm.errors && campoForm.touched };
   }
 
-  public salvarAlteracao(): void {
+  public salvarEvento(): void {
     this.spinner.show();
 
     if (this.form.valid) {
@@ -135,6 +138,23 @@ export class EventoDetalheComponent implements OnInit {
         },
         () => this.spinner.hide()
       );
+    }
+  }
+
+  public salvarLotes(): void {
+    this.spinner.show();
+    if (this.form.controls.lotes.valid) {
+      this.loteService.saveLote(this.eventoId, this.form.value.lotes)
+        .subscribe(
+          () => {
+            this.toastr.success('Lotes salvos com Sucesso!', 'Sucesso');
+          },
+          (error: any) => {
+            this.toastr.error('Erro ao tentar salvar lotes.', 'Erro');
+            console.error(error);
+          }
+        ).add(() => this.spinner.hide());
+
     }
   }
 }
