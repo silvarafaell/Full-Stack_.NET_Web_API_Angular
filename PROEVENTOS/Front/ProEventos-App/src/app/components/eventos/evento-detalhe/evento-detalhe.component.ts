@@ -119,6 +119,10 @@ export class EventoDetalheComponent implements OnInit {
     this.lotes.value[indice]['dataInicio'] = value;
   }
 
+  public retornaTituloLote(nome: string): string {
+    return nome === null || nome === '' ? 'Nome do lote' : nome;
+  }
+
   public resertForm(): void {
     this.form.reset();
   }

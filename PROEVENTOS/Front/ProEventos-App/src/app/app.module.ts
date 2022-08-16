@@ -1,3 +1,4 @@
+import { NgxCurrencyModule } from 'ngx-currency';
 import { LoteService } from './services/lote.service';
 import { TituloComponent } from './shared/titulo/titulo.component';
 import { PerfilComponent } from './components/user/perfil/perfil.component';
@@ -69,7 +70,8 @@ defineLocale('pt-br', ptBrLocale);
       preventDuplicates: true,
       progressBar: true
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxCurrencyModule
   ],
   providers: [
     EventoService,
