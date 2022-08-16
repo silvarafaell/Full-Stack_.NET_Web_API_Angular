@@ -29,8 +29,8 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { defineLocale } from 'ngx-bootstrap';
-import { ptBrLocale } from 'ngx-bootstrap';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
 
 defineLocale('pt-br', ptBrLocale);
 

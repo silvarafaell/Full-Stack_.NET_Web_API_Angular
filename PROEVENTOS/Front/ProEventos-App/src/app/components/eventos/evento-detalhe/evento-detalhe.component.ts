@@ -7,7 +7,7 @@ import { EventoService } from 'src/app/services/Evento.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { BsLocaleService } from 'ngx-bootstrap';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { Evento } from '@app/models/Evento';
 
 @Component({
