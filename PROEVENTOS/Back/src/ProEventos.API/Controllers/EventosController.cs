@@ -88,6 +88,30 @@ namespace ProEventos.API.Controllers
             }
         }
 
+        [HttpPost("upload-image/{eventoId}")]
+        public async Task<IActionResult> UploadImage(int eventoId)
+        {
+            try
+            {
+                var evento = await _eventoService.GetEventoByIdAsync(eventoId, true);
+                if (evento == null) return NoContent();
+
+                var file = Request.Form.Files[0];
+                if(file.Length > 0)
+                {
+                    //DeleteImage(evento.ImageURL);
+                    //evento.ImagemURL = SaveImage(file);
+                }
+                var EventoRetorno = await _eventoService.UpdateEvento(eventoId, evento);
+
+                return Ok(EventoRetorno);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar adicionar eventos. Erro: {ex.Message}");
+            }
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, EventoDto model)
