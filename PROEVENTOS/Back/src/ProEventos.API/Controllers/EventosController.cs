@@ -33,7 +33,6 @@ namespace ProEventos.API.Controllers
                 if (eventos == null) return NoContent();
 
 
-
                 return Ok(eventos);
             }
             catch (Exception ex)
@@ -103,7 +102,7 @@ namespace ProEventos.API.Controllers
                 if (evento == null) return NoContent();
 
                 var file = Request.Form.Files[0];
-                if(file.Length > 0)
+                if (file.Length > 0)
                 {
                     DeleteImage(evento.ImagemURL);
                     evento.ImagemURL = await SaveImage(file);
@@ -144,9 +143,15 @@ namespace ProEventos.API.Controllers
                 var evento = await _eventoService.GetEventoByIdAsync(id, true);
                 if (evento == null) return NoContent();
 
-                return await _eventoService.DeleteEvento(id) ?
-                    Ok(new { message = "Deletado" }) :
+                if (await _eventoService.DeleteEvento(id))
+                {
+                    DeleteImage(evento.ImagemURL)
+                    return Ok(new { message = "Deletado" });
+                }
+                else
+                {
                     throw new Exception("Ocorreu um problema não especifico ao tentar deletar Evento.");
+                }
             }
             catch (Exception ex)
             {
