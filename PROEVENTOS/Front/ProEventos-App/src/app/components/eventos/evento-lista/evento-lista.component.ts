@@ -1,3 +1,4 @@
+import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -57,6 +58,12 @@ export class EventoListaComponent implements OnInit {
 
   public alterarImagem(): void {
     this.exibirImagem = !this.exibirImagem;
+  }
+
+  public mostraImagem(imagemURL: string): string {
+    return imagemURL !== ''
+      ? `${environment.apiURL}resources/images/${imagemURL}`
+      : 'assets/img/semImagem.jpeg'
   }
 
   public carregarEventos(): void {
