@@ -5,8 +5,9 @@ using ProEventos.Domain;
 
 namespace ProEventos.Persistence.Contextos
 {
-    public class ProEventosContext : IdentityDbContext<IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, 
-                                                                        IdentityRoleClaim<int>, IdentityUserToken<int>>>
+    public class ProEventosContext : IdentityDbContext<User, Role, int,
+                                                       IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
+                                                       IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public ProEventosContext(DbContextOptions<ProEventosContext> options)
             : base(options) { }
