@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contratos;
+using ProEventos.Application.Dtos;
 
 namespace ProEventos.API.Controllers
 {
@@ -28,6 +29,28 @@ namespace ProEventos.API.Controllers
             {
                 var user = await _accountService.GetUserByUserNameAsync(userName);
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar recuperar Usuário. Erro: {ex.Message}");
+            }
+        }
+
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(UserDto userDto)
+        {
+            try
+            {
+                if (await _accountService.UserExists(userDto.Username))
+                    return BadRequest("Usuário já existe");
+
+                var user = await _accountService.CreateAccountAsync(userDto);
+                if (user != null)
+                    return Ok(user);
+
+                return BadRequest("Usuário não criado, tente novamente mais tarde!");
             }
             catch (Exception ex)
             {
