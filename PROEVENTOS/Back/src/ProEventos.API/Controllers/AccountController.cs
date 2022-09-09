@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,10 +24,11 @@ namespace ProEventos.API.Controllers
 
         [HttpGet("GetUser/{userName}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetUser(string userName)
+        public async Task<IActionResult> GetUser()
         {
             try
             {
+                var userName = User.FindFirst(ClaimTypes.Name)?.Value;
                 var user = await _accountService.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
