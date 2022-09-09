@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.API.Extensions;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
 
@@ -28,7 +29,7 @@ namespace ProEventos.API.Controllers
         {
             try
             {
-                var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+                var userName = User.GetUserName();
                 var user = await _accountService.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
@@ -77,14 +78,18 @@ namespace ProEventos.API.Controllers
                 {
                     userName = user.Username,
                     PrimeiroNome = user.PrimeiroNome,
-                    token = _tokenService.CreateToken(user).Result;
-            });
-        }
+                    token = _tokenService.CreateToken(user).Result
+                });
+            }
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Erro ao tentar recuperar Usuário. Erro: {ex.Message}");
+            }
+
+        }
     }
 }
-    }
-}
+
+
+
