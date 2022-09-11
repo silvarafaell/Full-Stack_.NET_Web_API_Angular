@@ -1,6 +1,6 @@
 import { environment } from '@environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Evento } from '../models/Evento';
 import { take } from 'rxjs/operators';
@@ -9,10 +9,13 @@ import { take } from 'rxjs/operators';
 
 export class EventoService {
   baseURL = environment.apiURL + 'api/eventos';
+  tokenHeader = new HttpHeaders('Authorization');
+
+
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(this.baseURL)
+    return this.http.get<Evento[]>(this.baseURL, { headers: this.tokenHeader })
       .pipe(take(1));
   }
 
