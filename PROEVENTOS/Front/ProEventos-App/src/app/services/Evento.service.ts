@@ -9,38 +9,36 @@ import { take } from 'rxjs/operators';
 
 export class EventoService {
   baseURL = environment.apiURL + 'api/eventos';
-  tokenHeader = new HttpHeaders({ 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}` });
-
 
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> {
-    return this.http.get<Evento[]>(this.baseURL, { headers: this.tokenHeader })
+    return this.http.get<Evento[]>(this.baseURL)
       .pipe(take(1));
   }
 
   public getEventosByTema(tema: string): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseURL}/${tema}/tema`, { headers: this.tokenHeader })
+    return this.http.get<Evento[]>(`${this.baseURL}/${tema}/tema`)
       .pipe(take(1));
   }
 
   public getEventoById(id: number): Observable<Evento> {
-    return this.http.get<Evento>(`${this.baseURL}/${id}`, { headers: this.tokenHeader })
+    return this.http.get<Evento>(`${this.baseURL}/${id}`)
       .pipe(take(1));
   }
 
   public post(evento: Evento): Observable<Evento> {
-    return this.http.post<Evento>(this.baseURL, evento, { headers: this.tokenHeader })
+    return this.http.post<Evento>(this.baseURL, evento)
       .pipe(take(1));
   }
 
   public put(evento: Evento): Observable<Evento> {
-    return this.http.put<Evento>(`${this.baseURL}/${evento.id}`, evento, { headers: this.tokenHeader })
+    return this.http.put<Evento>(`${this.baseURL}/${evento.id}`, evento)
       .pipe(take(1));
   }
 
   public deleteEvento(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}/${id}`, { headers: this.tokenHeader })
+    return this.http.delete(`${this.baseURL}/${id}`)
       .pipe(take(1));
   }
 
