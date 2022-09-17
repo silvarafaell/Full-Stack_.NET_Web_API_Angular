@@ -29,7 +29,7 @@
           <div *dropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" routerLink="user/perfil"> Perfil </a>
             <div role="separator" class="divider"></div>
-            <a class="dropdown-item" routerLink="user/login"> Sair </a>
+            <a (click)="logout()" class="dropdown-item" style="cursor: pointer;"> Sair </a>
           </div>
         </li>
       </ul>
