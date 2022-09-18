@@ -34,6 +34,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { HomeComponent } from './components/home/home.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -50,6 +51,7 @@ defineLocale('pt-br', ptBrLocale);
     DateTimeFormatPipe,
     EventoDetalheComponent,
     EventoListaComponent,
+    HomeComponent,
     UserComponent,
     LoginComponent,
     RegistrationComponent
