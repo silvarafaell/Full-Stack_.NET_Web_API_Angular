@@ -1,3 +1,7 @@
+import { UserUpdate } from './../../../models/identity/UserUpdate';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '@app/services/account.service';
 import { ValidatorField } from './../../../helpers/ValidatorField';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -10,17 +14,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PerfilComponent implements OnInit {
 
+  userUpdate = {} as UserUpdate;
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, public accountService: AccountService, private router: Router, private toaster: ToastrService, private spinner: NgxSpinnerModule) { }
 
   ngOnInit(): void {
     this.validation();
+    this.carregarUsuario();
+  }
+
+  carregarUsuario(): void {
+    this.accountService.getUser();
+
   }
 
   private validation(): void {
     const formOptions: AbstractControlOptions = {
-      validators: ValidatorField.MustMatch('senha', 'confirmeSenha')
+      validators: ValidatorField.MustMatch('password', 'confirmePassword')
     };
 
     this.form = this.fb.group({
@@ -31,8 +42,8 @@ export class PerfilComponent implements OnInit {
       telefone: ['', [Validators.required]],
       descricao: ['', Validators.required],
       funcao: ['', Validators.required],
-      senha: ['', [Validators.minLength(6), Validators.nullValidator]],
-      confirmeSenha: ['', Validators.nullValidator]
+      password: ['', [Validators.minLength(4), Validators.nullValidator]],
+      confirmePassword: ['', Validators.nullValidator]
     }, formOptions);
   }
 
