@@ -1,10 +1,10 @@
-import { map, take } from 'rxjs/operators';
-import { environment } from './../../environments/environment';
-import { Observable, ReplaySubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, ReplaySubject } from 'rxjs';
+import { environment } from '@environments/environment';
 import { User } from '@app/models/identity/User';
-import { UserUpdate } from '@app/models/identity/UserUpdate';
+import { map, take } from 'rxjs/operators';
+import { UserUpdate } from '../models/identity/UserUpdate';
 
 @Injectable()
 

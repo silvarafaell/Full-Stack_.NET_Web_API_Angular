@@ -1,6 +1,6 @@
 export class UserUpdate {
     titulo: string;
-    username: string;
+    userName: string;
     primeiroNome: string;
     ultimoNome: string;
     email: string;
