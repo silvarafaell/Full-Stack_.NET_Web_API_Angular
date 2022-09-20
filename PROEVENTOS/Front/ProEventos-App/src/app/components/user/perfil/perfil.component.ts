@@ -1,5 +1,5 @@
 import { UserUpdate } from './../../../models/identity/UserUpdate';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '@app/services/account.service';
 import { ValidatorField } from './../../../helpers/ValidatorField';
@@ -17,7 +17,7 @@ export class PerfilComponent implements OnInit {
   userUpdate = {} as UserUpdate;
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, public accountService: AccountService, private router: Router, private toaster: ToastrService, private spinner: NgxSpinnerModule) { }
+  constructor(private fb: FormBuilder, public accountService: AccountService, private router: Router, private toaster: ToastrService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.validation();
@@ -25,8 +25,21 @@ export class PerfilComponent implements OnInit {
   }
 
   carregarUsuario(): void {
-    this.accountService.getUser();
-
+    this.spinner.show();
+    this.accountService.getUser().subscribe(
+      (userRetorno: UserUpdate) => {
+        console.log(userRetorno);
+        this.userUpdate = userRetorno;
+        this.form.patchValue(this.userUpdate);
+        this.toaster.success('Usuário Carregado', 'Sucesso');
+      },
+      (error) => {
+        console.error(error);
+        this.toaster.error('Usuário não Carregado', 'Erro');
+        this.router.navigate(['/dashboard'])
+      }
+    )
+      .add(this.spinner.hide);
   }
 
   private validation(): void {
