@@ -24,22 +24,24 @@ export class PerfilComponent implements OnInit {
     this.carregarUsuario();
   }
 
-  carregarUsuario(): void {
+  private carregarUsuario(): void {
     this.spinner.show();
-    this.accountService.getUser().subscribe(
-      (userRetorno: UserUpdate) => {
-        console.log(userRetorno);
-        this.userUpdate = userRetorno;
-        this.form.patchValue(this.userUpdate);
-        this.toaster.success('Usuário Carregado', 'Sucesso');
-      },
-      (error) => {
-        console.error(error);
-        this.toaster.error('Usuário não Carregado', 'Erro');
-        this.router.navigate(['/dashboard'])
-      }
-    )
-      .add(this.spinner.hide);
+    this.accountService
+      .getUser()
+      .subscribe(
+        (userRetorno: UserUpdate) => {
+          console.log(userRetorno);
+          this.userUpdate = userRetorno;
+          this.form.patchValue(this.userUpdate);
+          this.toaster.success('Usuário Carregado', 'Sucesso');
+        },
+        (error) => {
+          console.error(error);
+          this.toaster.error('Usuário não Carregado', 'Erro');
+          this.router.navigate(['/dashboard']);
+        }
+      )
+      .add(() => this.spinner.hide());
   }
 
   private validation(): void {
