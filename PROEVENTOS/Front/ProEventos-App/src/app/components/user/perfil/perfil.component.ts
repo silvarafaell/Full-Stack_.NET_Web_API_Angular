@@ -67,10 +67,21 @@ export class PerfilComponent implements OnInit {
 
   onSubmit(): void {
 
-    // Vai parar aqui se o form estiver inválido
-    if (this.form.invalid) {
-      return;
-    }
+    this.atualizarUsuario();
+  }
+
+  public atualizarUsuario() {
+    this.userUpdate = { ...this.form.value }
+    this.spinner.show();
+
+    this.accountService.updateUser(this.userUpdate).subscribe(
+      () => this.toaster.success('Usuário atualizado!', 'Sucesso'),
+      (error) => {
+        this.toaster.error(error.error);
+        console.error(error);
+      },
+    )
+      .add(() => this.spinner.hide());
   }
 
   public resetForm(event: any): void {
