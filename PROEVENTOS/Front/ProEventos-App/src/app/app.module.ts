@@ -1,3 +1,5 @@
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AccountService } from './services/account.service';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { LoteService } from './services/lote.service';
 import { TituloComponent } from './shared/titulo/titulo.component';
@@ -7,7 +9,7 @@ import { ContatosComponent } from './components/contatos/contatos.component';
 import { EventoService } from './services/Evento.service';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +34,7 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { HomeComponent } from './components/home/home.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -48,6 +51,7 @@ defineLocale('pt-br', ptBrLocale);
     DateTimeFormatPipe,
     EventoDetalheComponent,
     EventoListaComponent,
+    HomeComponent,
     UserComponent,
     LoginComponent,
     RegistrationComponent
@@ -75,9 +79,10 @@ defineLocale('pt-br', ptBrLocale);
   ],
   providers: [
     EventoService,
-    LoteService
+    LoteService,
+    AccountService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
