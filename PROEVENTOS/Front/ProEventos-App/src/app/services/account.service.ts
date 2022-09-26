@@ -28,7 +28,11 @@ export class AccountService {
   }
 
   getUser(): Observable<UserUpdate> {
-    return this.http.get<UserUpdate>(this.baseUrl + 'getUser').pipe(take(1));
+    const jsonUser = localStorage.getItem('user');
+    const user = JSON.parse(jsonUser);
+    const userName = user.userName;
+
+    return this.http.get<UserUpdate>(this.baseUrl + 'getUser' + '/{{userName}}').pipe(take(1));
   }
 
   updateUser(model: UserUpdate): Observable<void> {
