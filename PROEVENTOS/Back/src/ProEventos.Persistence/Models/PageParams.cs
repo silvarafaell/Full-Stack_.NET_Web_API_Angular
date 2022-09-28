@@ -19,7 +19,7 @@ namespace ProEventos.Persistence.Models
             
         }
 
-        public string Term { get; set; }
+        public string Term { get; set; } = String.Empty;
 
     }
 }
