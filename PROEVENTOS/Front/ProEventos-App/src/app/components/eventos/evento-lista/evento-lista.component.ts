@@ -20,29 +20,28 @@ export class EventoListaComponent implements OnInit {
   modalRef?: BsModalRef;
 
   public eventos: Evento[] = [];
-  public eventosFiltrados: Evento[] = [];
   public larguraImagem = 150;
   public margemImagem = 2;
   public exibirImagem = true;
-  private _filtroLista: string = '';
   public eventoId = 0;
   public pagination = {} as Pagination;
 
-  public get filtroLista(): string {
-    return this._filtroLista;
-  }
 
-  public set filtroLista(value: string) {
-    this._filtroLista = value;
-    this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
-  }
-
-  public filtrarEventos(filtrarPor: string): Evento[] {
-    filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.eventos.filter(
-      (evento: any) => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-        evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    );
+  public filtrarEventos(evt: any): void {
+    this.eventoService.getEventos(
+      this.pagination.currentPage,
+      this.pagination.itemsPerPage,
+      evt.value
+    ).subscribe(
+      (paginateResult: PaginateResult<Evento[]>) => {
+        this.eventos = paginateResult.result;
+        this.pagination = paginateResult.pagination;
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
+      }
+    )
   }
 
   constructor(
@@ -76,7 +75,6 @@ export class EventoListaComponent implements OnInit {
       this.pagination.itemsPerPage).subscribe(
         (paginateResult: PaginateResult<Evento[]>) => {
           this.eventos = paginateResult.result;
-          this.eventosFiltrados = this.eventos;
           this.pagination = paginateResult.pagination;
         },
         (error: any) => {
