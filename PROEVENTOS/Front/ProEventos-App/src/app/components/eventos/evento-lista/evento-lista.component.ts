@@ -1,3 +1,4 @@
+import { Pagination } from './../../../models/Pagination';
 import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from "@angular/core";
@@ -25,6 +26,7 @@ export class EventoListaComponent implements OnInit {
   public exibirImagem = true;
   private _filtroLista: string = '';
   public eventoId = 0;
+  public pagination = {} as Pagination;
 
   public get filtroLista(): string {
     return this._filtroLista;
