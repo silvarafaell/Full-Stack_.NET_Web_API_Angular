@@ -73,18 +73,17 @@ export class EventoListaComponent implements OnInit {
     this.spinner.show();
 
     this.eventoService.getEventos(this.pagination.currentPage,
-      this.pagination.itemsPerPage).subscribe({
-        next: (paginateResult: PaginateResult<Evento[]>) => {
+      this.pagination.itemsPerPage).subscribe(
+        (paginateResult: PaginateResult<Evento[]>) => {
           this.eventos = paginateResult.result;
           this.eventosFiltrados = this.eventos;
           this.pagination = paginateResult.pagination;
         },
-        error: (error: any) => {
+        (error: any) => {
           this.spinner.hide();
           this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
         },
-        complete: () => this.spinner.hide()
-      });
+      ).add(() => this.spinner.hide());
   }
 
   openModal(event: any, template: TemplateRef<any>, eventoId: number): void {
@@ -93,8 +92,9 @@ export class EventoListaComponent implements OnInit {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
-  public pageChanged($event): void {
-
+  public pageChanged(event): void {
+    this.pagination.currentPage = event.page;
+    this.carregarEventos();
   }
 
   confirm(): void {
