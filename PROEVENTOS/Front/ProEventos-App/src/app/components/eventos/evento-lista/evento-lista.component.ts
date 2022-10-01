@@ -7,6 +7,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { Evento } from "src/app/models/Evento";
 import { EventoService } from "src/app/services/Evento.service";
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 
 
@@ -26,22 +28,31 @@ export class EventoListaComponent implements OnInit {
   public eventoId = 0;
   public pagination = {} as Pagination;
 
+  termBuscaChanged: Subject<string> = new Subject<string>();
 
   public filtrarEventos(evt: any): void {
-    this.eventoService.getEventos(
-      this.pagination.currentPage,
-      this.pagination.itemsPerPage,
-      evt.value
-    ).subscribe(
-      (paginateResult: PaginateResult<Evento[]>) => {
-        this.eventos = paginateResult.result;
-        this.pagination = paginateResult.pagination;
-      },
-      (error: any) => {
-        this.spinner.hide();
-        this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
-      }
-    )
+    if (this.termBuscaChanged.observers.length === 0) {
+      this.termBuscaChanged.pipe(debounceTime(1000)).subscribe(
+        filtrarPor => {
+          this.spinner.show();
+          this.eventoService.getEventos(
+            this.pagination.currentPage,
+            this.pagination.itemsPerPage,
+            filtrarPor
+          ).subscribe(
+            (paginateResult: PaginateResult<Evento[]>) => {
+              this.eventos = paginateResult.result;
+              this.pagination = paginateResult.pagination;
+            },
+            (error: any) => {
+              this.spinner.hide();
+              this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
+            }
+          ).add(() => this.spinner.hide())
+        }
+      )
+    }
+    this.termBuscaChanged.next(evt.value);
   }
 
   constructor(
