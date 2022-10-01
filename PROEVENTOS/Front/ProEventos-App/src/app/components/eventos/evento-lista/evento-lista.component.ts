@@ -1,4 +1,4 @@
-import { Pagination } from './../../../models/Pagination';
+import { PaginateResult, Pagination } from './../../../models/Pagination';
 import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from "@angular/core";
@@ -54,7 +54,8 @@ export class EventoListaComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.spinner.show();
+    this.pagination = { currentPage: 1, itemsPerPage: 3, totalItems: 1 } as Pagination;
+
     this.carregarEventos();
   }
 
@@ -69,17 +70,21 @@ export class EventoListaComponent implements OnInit {
   }
 
   public carregarEventos(): void {
-    this.eventoService.getEventos().subscribe({
-      next: (_eventos: Evento[]) => {
-        this.eventos = _eventos;
-        this.eventosFiltrados = this.eventos;
-      },
-      error: (error: any) => {
-        this.spinner.hide();
-        this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
-      },
-      complete: () => this.spinner.hide()
-    });
+    this.spinner.show();
+
+    this.eventoService.getEventos(this.pagination.currentPage,
+      this.pagination.itemsPerPage).subscribe({
+        next: (paginateResult: PaginateResult<Evento[]>) => {
+          this.eventos = paginateResult.result;
+          this.eventosFiltrados = this.eventos;
+          this.pagination = paginateResult.pagination;
+        },
+        error: (error: any) => {
+          this.spinner.hide();
+          this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
+        },
+        complete: () => this.spinner.hide()
+      });
   }
 
   openModal(event: any, template: TemplateRef<any>, eventoId: number): void {

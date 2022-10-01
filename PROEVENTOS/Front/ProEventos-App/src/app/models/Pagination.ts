@@ -5,7 +5,7 @@ export class Pagination {
     totalPages: number;
 }
 
-export class PaginationResult<T> {
+export class PaginateResult<T> {
     result: T;
     pagination: Pagination;
 }
