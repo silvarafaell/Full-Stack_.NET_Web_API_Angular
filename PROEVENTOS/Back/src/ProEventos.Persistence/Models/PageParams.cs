@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProEventos.Persistence.Models
 {
@@ -15,11 +11,11 @@ namespace ProEventos.Persistence.Models
         public int PageSize
         {
             get { return pageSize; }
-            set { pageSize =  (value > MaxPageSize) ? MaxPageSize : value; }
-            
+            set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
+
         }
 
-        public string Term { get; set; } = String.Empty;
+        public string Term { get; set; } = string.Empty;
 
     }
 }

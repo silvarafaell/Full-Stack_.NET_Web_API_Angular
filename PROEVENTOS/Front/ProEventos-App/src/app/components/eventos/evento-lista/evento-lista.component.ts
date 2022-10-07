@@ -1,4 +1,4 @@
-import { PaginateResult, Pagination } from './../../../models/Pagination';
+import { PaginatedResult, Pagination } from '@app/models/Pagination';
 import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef } from "@angular/core";
@@ -40,7 +40,7 @@ export class EventoListaComponent implements OnInit {
             this.pagination.itemsPerPage,
             filtrarPor
           ).subscribe(
-            (paginateResult: PaginateResult<Evento[]>) => {
+            (paginateResult: PaginatedResult<Evento[]>) => {
               this.eventos = paginateResult.result;
               this.pagination = paginateResult.pagination;
             },
@@ -64,7 +64,11 @@ export class EventoListaComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.pagination = { currentPage: 1, itemsPerPage: 3, totalItems: 1 } as Pagination;
+    this.pagination = {
+      currentPage: 1,
+      itemsPerPage: 3,
+      totalItems: 1,
+    } as Pagination;
 
     this.carregarEventos();
   }
@@ -82,17 +86,19 @@ export class EventoListaComponent implements OnInit {
   public carregarEventos(): void {
     this.spinner.show();
 
-    this.eventoService.getEventos(this.pagination.currentPage,
-      this.pagination.itemsPerPage).subscribe(
-        (paginateResult: PaginateResult<Evento[]>) => {
-          this.eventos = paginateResult.result;
-          this.pagination = paginateResult.pagination;
+    this.eventoService
+      .getEventos(this.pagination.currentPage, this.pagination.itemsPerPage)
+      .subscribe(
+        (paginatedResult: PaginatedResult<Evento[]>) => {
+          this.eventos = paginatedResult.result;
+          this.pagination = paginatedResult.pagination;
         },
         (error: any) => {
           this.spinner.hide();
-          this.toastr.error('Erro ao Carregar os Eventos', 'Error!');
-        },
-      ).add(() => this.spinner.hide());
+          this.toastr.error('Erro ao Carregar os Eventos', 'Erro!');
+        }
+      )
+      .add(() => this.spinner.hide());
   }
 
   openModal(event: any, template: TemplateRef<any>, eventoId: number): void {

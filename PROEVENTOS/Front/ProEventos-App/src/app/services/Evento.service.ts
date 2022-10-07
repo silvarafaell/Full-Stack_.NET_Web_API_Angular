@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angu
 import { Observable } from 'rxjs';
 import { Evento } from '../models/Evento';
 import { map, take } from 'rxjs/operators';
-import { PaginateResult } from '@app/models/Pagination';
+import { PaginatedResult } from '@app/models/Pagination';
 
 @Injectable()
 
@@ -13,17 +13,17 @@ export class EventoService {
 
   constructor(private http: HttpClient) { }
 
-  public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginateResult<Evento[]>> {
-    const paginateResult: PaginateResult<Evento[]> = new PaginateResult<Evento[]>();
+  public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Evento[]>> {
+    const paginatedResult: PaginatedResult<Evento[]> = new PaginatedResult<Evento[]>();
 
     let params = new HttpParams;
 
-    if (page !== null && itemsPerPage !== null) {
+    if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
     }
 
-    if (term !== null && term !== '')
+    if (term != null && term != '')
       params = params.append('term', term)
 
     return this.http
@@ -31,17 +31,12 @@ export class EventoService {
       .pipe(
         take(1),
         map((response) => {
-          paginateResult.result = response.body;
+          paginatedResult.result = response.body;
           if (response.headers.has('Pagination')) {
-            paginateResult.pagination = JSON.parse(response.headers.get('Pagination'));
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
           }
-          return paginateResult;
+          return paginatedResult;
         }));
-  }
-
-  public getEventosByTema(tema: string): Observable<Evento[]> {
-    return this.http.get<Evento[]>(`${this.baseURL}/${tema}/tema`)
-      .pipe(take(1));
   }
 
   public getEventoById(id: number): Observable<Evento> {

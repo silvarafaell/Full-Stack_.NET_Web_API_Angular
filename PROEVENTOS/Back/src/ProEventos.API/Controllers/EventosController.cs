@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProEventos.API.Extensions;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
-using ProEventos.Domain;
 using ProEventos.Persistence.Models;
 
 namespace ProEventos.API.Controllers
@@ -31,7 +30,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]PageParams pageParams)
+        public async Task<IActionResult> Get([FromQuery] PageParams pageParams)
         {
             try
             {

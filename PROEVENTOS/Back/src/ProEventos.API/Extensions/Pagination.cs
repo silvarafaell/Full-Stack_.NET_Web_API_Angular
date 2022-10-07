@@ -17,7 +17,7 @@ namespace ProEventos.API.Extensions
 
             response.Headers.Add("Pagination", JsonSerializer.Serialize(pagination, options));
 
-            response.Headers.Add("Acess-Control-Expose-Headers", "Pagination");
+            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
     }
 }
