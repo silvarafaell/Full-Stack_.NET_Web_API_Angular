@@ -15,6 +15,5 @@ namespace ProEventos.Persistence.Contratos
         Task<RedeSocial[]> GetAllByEventoIdAsync(int eventoId);
 
         Task<RedeSocial> GetAllByPalestranteIdAsync(int palestranteId);
-
     }
 }
