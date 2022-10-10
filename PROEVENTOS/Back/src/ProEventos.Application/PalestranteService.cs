@@ -11,28 +11,28 @@ namespace ProEventos.Application
 {
     public class PalestranteService : IPalestranteService
     {
-        private readonly IEventoPersist _palestrantePersist;
+        private readonly IPalestrantePersist _palestrantePersist;
         private readonly IMapper _mapper;
-        public PalestranteService(IEventoPersist palestrantePersist,
+        public PalestranteService(IPalestrantePersist palestrantePersist,
                              IMapper mapper)
         {
             _palestrantePersist = palestrantePersist;
             _mapper = mapper;
         }
-        public async Task<EventoDto> AddEventos(int userId, EventoDto model)
+        public async Task<PalestranteDto> AddPalestrantes(int userId, PalestranteAddDto model)
         {
             try
             {
-                var evento = _mapper.Map<Evento>(model);
-                evento.UserId = userId;
+                var palestrante = _mapper.Map<Palestrante>(model);
+                palestrante.UserId = userId;
 
-                _geralPersist.Add<Evento>(evento);
+                _palestrantePersist.Add<Palestrante>(palestrante);
 
-                if (await _geralPersist.SaveChangesAsync())
+                if (await _palestrantePersist.SaveChangesAsync())
                 {
-                    var eventoRetorno = await _eventoPersist.GetEventoByIdAsync(userId, evento.Id, false);
+                    var palestranteRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
 
-                    return _mapper.Map<EventoDto>(eventoRetorno);
+                    return _mapper.Map<PalestranteDto>(palestranteRetorno);
                 }
                 return null;
             }
@@ -42,25 +42,25 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto model)
+        public async Task<PalestranteDto> UpdatePalestrante(int userId, PalestranteUpdateDto model)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId, eventoId, false);
-                if (evento == null) return null;
+                var palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
+                if (palestrante == null) return null;
 
-                model.Id = evento.Id;
+                model.Id = palestrante.Id;
                 model.UserId = userId;
 
-                _mapper.Map(model, evento);
+                _mapper.Map(model, palestrante);
 
-                _geralPersist.Update<Evento>(evento);
+                _palestrantePersist.Update<Palestrante>(palestrante);
 
-                if (await _geralPersist.SaveChangesAsync())
+                if (await _palestrantePersist.SaveChangesAsync())
                 {
-                    var eventoRetorno = await _eventoPersist.GetEventoByIdAsync(userId, evento.Id, false);
+                    var eventoRetorno = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, false);
 
-                    return _mapper.Map<EventoDto>(eventoRetorno);
+                    return _mapper.Map<PalestranteDto>(eventoRetorno);
                 }
                 return null;
             }
@@ -70,35 +70,19 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<bool> DeleteEvento(int userId, int eventoId)
+        public async Task<PageList<PalestranteDto>> GetAllPalestrantesAsync(PageParams pageParams, bool includeEventos = false)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId, eventoId, false);
-                if (evento == null) throw new Exception("Evento para delete não encontrado.");
+                var palestrantes = await _palestrantePersist.GetAllPalestrantesAsync(pageParams, includeEventos);
+                if (palestrantes == null) return null;
 
-                _geralPersist.Delete<Evento>(evento);
-                return await _geralPersist.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+                var resultado = _mapper.Map<PageList<PalestranteDto>>(palestrantes);
 
-        public async Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false)
-        {
-            try
-            {
-                var eventos = await _eventoPersist.GetAllEventosAsync(userId, pageParams, includePalestrantes);
-                if (eventos == null) return null;
-
-                var resultado = _mapper.Map<PageList<EventoDto>>(eventos);
-
-                resultado.CurrentPage = eventos.CurrentPage;
-                resultado.TotalPages = eventos.TotalPages;
-                resultado.PageSize = eventos.PageSize;
-                resultado.TotalCount = eventos.TotalCount;
+                resultado.CurrentPage = palestrantes.CurrentPage;
+                resultado.TotalPages = palestrantes.TotalPages;
+                resultado.PageSize = palestrantes.PageSize;
+                resultado.TotalCount = palestrantes.TotalCount;
 
                 return resultado;
             }
@@ -108,14 +92,14 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<EventoDto> GetEventoByIdAsync(int userId, int eventoId, bool includePalestrantes = false)
+        public async Task<PalestranteDto> GetPalestranteByUserIdAsync(int userId, bool includeEventos = false)
         {
             try
             {
-                var evento = await _eventoPersist.GetEventoByIdAsync(userId, eventoId, includePalestrantes);
-                if (evento == null) return null;
+                var palestrante = await _palestrantePersist.GetPalestranteByUserIdAsync(userId, includeEventos);
+                if (palestrante == null) return null;
 
-                var resultado = _mapper.Map<EventoDto>(evento);
+                var resultado = _mapper.Map<PalestranteDto>(palestrante);
 
                 return resultado;
             }
