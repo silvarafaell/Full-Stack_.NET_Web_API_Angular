@@ -19,12 +19,23 @@ namespace ProEventos.Application
             _redeSocialPersist = redeSocialPersist;
             _mapper = mapper; 
         }
-        public async Task AddRedeSocial(int eventoId, RedeSocialDto model)
+        public async Task AddRedeSocial(int Id, RedeSocialDto model, bool isEvento)
         {
             try
             {
                 var redeSocial = _mapper.Map<RedeSocial>(model);
-                redeSocial.EventoId = eventoId;
+                if(isEvento)
+                {
+                    redeSocial.EventoId = Id;
+                    redeSocial.PalestranteId = null;
+                }
+                else
+                {
+                    redeSocial.EventoId = null;
+                    redeSocial.PalestranteId = Id;
+                }
+
+
 
                 _redeSocialPersist.Add<RedeSocial>(redeSocial);
 
@@ -47,7 +58,7 @@ namespace ProEventos.Application
                 {
                     if(model.Id == 0)
                     {
-                        await AddRedeSocial(eventoId, model);
+                        await AddRedeSocial(eventoId, model, true);
                     }
                     else
                     {
@@ -65,6 +76,42 @@ namespace ProEventos.Application
                     var redeSocialRetorno = await _redeSocialPersist.GetAllByEventoIdAsync(eventoId);
 
                     return _mapper.Map<RedeSocialDto[]>(redeSocialRetorno);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<RedeSocialDto[]> SaveByPalestrante(int palestranteId, RedeSocialDto[] models)
+        {
+            try
+            {
+                var redeSocials = await _redeSocialPersist.GetAllByPalestranteIdAsync(palestranteId);
+                if (redeSocials == null) return null;
+
+                foreach (var model in models)
+                {
+                    if (model.Id == 0)
+                    {
+                        await AddRedeSocial(palestranteId, model, false);
+                    }
+                    else
+                    {
+                        var redeSocial = redeSocials.FirstOrDefault(redeSocial => redeSocial.Id == model.Id);
+                        model.PalestranteId = palestranteId;
+
+                        _mapper.Map(model, redeSocial);
+
+                        _redeSocialPersist.Update<RedeSocial>(redeSocial);
+
+                        await _redeSocialPersist.SaveChangesAsync();
+                    }
+                }
+
+                var redeSocialRetorno = await _redeSocialPersist.GetAllByEventoIdAsync(palestranteId);
+
+                return _mapper.Map<RedeSocialDto[]>(redeSocialRetorno);
             }
             catch (Exception ex)
             {
