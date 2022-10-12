@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
+using ProEventos.API.Extensions;
 
 namespace ProEventos.API.Controllers
 {
@@ -25,15 +26,38 @@ namespace ProEventos.API.Controllers
             _palestranteService = palestranteService;
         }
 
-        [HttpGet("{eventoId}")]
-        public async Task<IActionResult> Get(int eventoId)
+        [HttpGet("evento/{eventoId}")]
+        public async Task<IActionResult> GetByEvento(int eventoId)
         {
             try
             {
-                var lotes = await _loteService.GetLotesByEventoIdAsync(eventoId);
-                if (lotes == null) return NoContent();
+                if (!(await AutorEvento(eventoId)))
+                    return Unauthorized();
 
-                return Ok(lotes);
+                var redeSocial = await _redeSocialService.GetAllByEventoIdAsync(eventoId);
+                if (redeSocial == null) return NoContent();
+
+                return Ok(redeSocial);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
+            }
+        }
+
+        [HttpGet("palestrante")]
+        public async Task<IActionResult> GetByPalestrante()
+        {
+            try
+            {
+                var palestrante = await _palestranteService.GetPalestranteByUserIdAsync(User.GetUserId());
+                if (palestrante == null) return Unauthorized();
+
+                var redeSocial = await _redeSocialService.GetAllByPalestranteIdAsync(palestrante.Id);
+                if (redeSocial == null) return NoContent();
+
+                return Ok(redeSocial);
             }
             catch (Exception ex)
             {
@@ -77,6 +101,15 @@ namespace ProEventos.API.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 $"Erro ao tentar deletar lotes. Erro: {ex.Message}");
             }
+        }
+
+        [NonAction]
+        private async Task<bool> AutorEvento(int eventoId)
+        {
+            var evento = await _eventoService.GetEventoByIdAsync(User.GetUserId(), eventoId, false);
+            if (evento == null) return false;
+
+            return true;
         }
     }
 }
