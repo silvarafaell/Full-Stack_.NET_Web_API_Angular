@@ -42,7 +42,7 @@ namespace ProEventos.API.Controllers
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
+                $"Erro ao tentar recuperar Rede Social por Evento. Erro: {ex.Message}");
             }
         }
 
@@ -62,25 +62,48 @@ namespace ProEventos.API.Controllers
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                $"Erro ao tentar recuperar lotes. Erro: {ex.Message}");
+                $"Erro ao tentar recuperar Rede Social por Palestrante. Erro: {ex.Message}");
             }
         }
 
 
-        [HttpPut("{eventoId}")]
-        public async Task<IActionResult> SaveLotes(int eventoId, LoteDto[] models)
+        [HttpPut("evento/{eventoId}")]
+        public async Task<IActionResult> SaveByEvento(int eventoId, RedeSocialDto[] models)
         {
             try
             {
-                var lotes = await _loteService.SaveLotes(eventoId, models);
-                if (lotes == null) return NoContent();
+                if (!(await AutorEvento(eventoId)))
+                    return Unauthorized();
 
-                return Ok(lotes);
+                var redeSocial = await _redeSocialService.SaveByEvento(eventoId, models);
+                if (redeSocial == null) return NoContent();
+
+                return Ok(redeSocial);
             }
             catch (Exception ex)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
-                $"Erro ao tentar salvar lotes. Erro: {ex.Message}");
+                $"Erro ao tentar salvar Rede Social por Evento. Erro: {ex.Message}");
+            }
+        }
+
+        [HttpPut("palestrante")]
+        public async Task<IActionResult> SaveByPalestrante(RedeSocialDto[] models)
+        {
+            try
+            {
+                var palestrante = await _palestranteService.GetPalestranteByUserIdAsync(User.GetUserId());
+                if (palestrante == null) return Unauthorized();
+
+                var redeSocial = await _redeSocialService.SaveByPalestrante(palestrante.Id, models);
+                if (redeSocial == null) return NoContent();
+
+                return Ok(redeSocial);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar salvar Rede Social por Palestrante. Erro: {ex.Message}");
             }
         }
 
