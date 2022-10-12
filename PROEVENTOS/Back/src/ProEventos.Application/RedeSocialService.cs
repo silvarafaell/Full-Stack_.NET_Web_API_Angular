@@ -151,14 +151,14 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<LoteDto> GetLoteByIdsAsync(int eventoId, int loteId)
+        public async Task<RedeSocialDto> GetRedeSocialEventoByIdsAsync(int eventoId, int redeSocialDtoId)
         {
            try
             {
-                var lote = await _lotePersist.GetLoteByIdsAsync(eventoId, loteId);
-                if (lote == null) return null;
+                var redeSocial = await _redeSocialPersist.GetRedeSocialEventoByIdsAsync(eventoId, redeSocialDtoId);
+                if (redeSocial == null) return null;
 
-                var resultado = _mapper.Map<LoteDto>(lote);
+                var resultado = _mapper.Map<RedeSocialDto>(redeSocial);
 
                 return resultado;
             }
@@ -168,14 +168,48 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<LoteDto[]> GetLotesByEventoIdAsync(int eventoId)
+        public async Task<RedeSocialDto> GetRedeSocialPalestranteByIdsAsync(int palestranteId, int redeSocialDtoId)
         {
             try
             {
-                var lotes = await _lotePersist.GetLotesByEventoIdAsync(eventoId);
-                if (lotes == null) return null;
+                var redeSocial = await _redeSocialPersist.GetRedeSocialPalestranteByIdAsync(palestranteId, redeSocialDtoId);
+                if (redeSocial == null) return null;
 
-                var resultado = _mapper.Map<LoteDto[]>(lotes);
+                var resultado = _mapper.Map<RedeSocialDto>(redeSocial);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<RedeSocialDto[]> GetAllByEventoIdAsync(int eventoId)
+        {
+            try
+            {
+                var redeSocials = await _redeSocialPersist.GetAllByEventoIdAsync(eventoId);
+                if (redeSocials == null) return null;
+
+                var resultado = _mapper.Map<RedeSocialDto[]>(redeSocials);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<RedeSocialDto[]> GetAllByPalestranteIdAsync(int palestranteId)
+        {
+            try
+            {
+                var redeSocials = await _redeSocialPersist.GetAllByPalestranteIdAsync(palestranteId);
+                if (redeSocials == null) return null;
+
+                var resultado = _mapper.Map<RedeSocialDto[]>(redeSocials);
 
                 return resultado;
             }
