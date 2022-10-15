@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Collections.Generic;
+using ProEventos.API.Helpers;
 
 namespace ProEventos.API
 {
@@ -84,6 +85,7 @@ namespace ProEventos.API
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IPalestranteService, PalestranteService>();
             services.AddScoped<IRedeSocialService, RedeSocialService>();
+            services.AddScoped<IUtil, Util>();
 
 
             services.AddScoped<IGeralPersist, GeralPersist>();
