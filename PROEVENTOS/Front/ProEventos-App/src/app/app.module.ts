@@ -36,6 +36,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { HomeComponent } from './components/home/home.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -70,6 +71,7 @@ defineLocale('pt-br', ptBrLocale);
     PaginationModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
