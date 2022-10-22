@@ -15,9 +15,11 @@ import { ValidatorField } from '@app/helpers/ValidatorField';
 export class PerfilComponent implements OnInit {
   public usuario = {} as UserUpdate;
 
-  constructor(
+  public get ehPalestrante(): boolean {
+    return this.usuario.funcao == 'Palestrante';
+  }
 
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
 
