@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserUpdate } from '@app/models/identity/UserUpdate';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-perfil',
@@ -26,6 +27,10 @@ export class PerfilComponent implements OnInit {
 
   public setFormValue(usuario: UserUpdate): void {
     this.usuario = usuario;
+    if (this.usuario.imageURL)
+      this.imagemURL = environment.apiURL + `resources/perfil/${this.usuario.imageURL}`;
+    else
+      this.imagemURL = './assets/img/perfil.png';
   }
 
   onFileChange(ev: any): void {
