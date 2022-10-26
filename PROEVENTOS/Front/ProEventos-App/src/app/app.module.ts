@@ -1,3 +1,4 @@
+import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AccountService } from './services/account.service';
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -58,7 +59,8 @@ defineLocale('pt-br', ptBrLocale);
     HomeComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    PalestranteListaComponent
   ],
   imports: [
     BrowserModule,
