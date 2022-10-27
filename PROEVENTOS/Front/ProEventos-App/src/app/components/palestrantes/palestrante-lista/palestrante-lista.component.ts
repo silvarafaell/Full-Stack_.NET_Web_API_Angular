@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { PalestranteService } from '@app/services/palestrante.service';
 import { Palestrante } from '@app/models/Palestrante';
 import { PaginatedResult } from '@app/models/Pagination';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-palestrante-lista',
@@ -62,6 +63,13 @@ export class PalestranteListaComponent implements OnInit {
       )
     }
     this.termBuscaChanged.next(evt.value);
+  }
+
+  public getImagemURL(imagemName: string): string {
+    if (imagemName)
+      return environment.apiURL + `resources/perfil/${imagemName}`;
+    else
+      return './assets/img/perfil.png';
   }
 
   public carregarPalestrantes(): void {
