@@ -1,3 +1,4 @@
+import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AccountService } from './services/account.service';
@@ -60,7 +61,8 @@ defineLocale('pt-br', ptBrLocale);
     UserComponent,
     LoginComponent,
     RegistrationComponent,
-    PalestranteListaComponent
+    PalestranteListaComponent,
+    PalestranteDetalheComponent
   ],
   imports: [
     BrowserModule,
