@@ -1,3 +1,4 @@
+import { map, debounceTime, tap } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -23,6 +24,7 @@ export class PalestranteDetalheComponent implements OnInit {
 
   ngOnInit() {
     this.validation();
+    this.verificaForm();
   }
 
   private validation(): void {
@@ -35,4 +37,29 @@ export class PalestranteDetalheComponent implements OnInit {
     return this.form.controls;
   }
 
+  private verificaForm(): void {
+    this.form.valueChanges
+      .pipe(
+        map(() => {
+          this.situacaoDoForm = 'Minicurriculo está sendo Atualizado!'
+          this.corDaDescricao = 'text-warning'
+        }),
+        debounceTime(1000),
+        tap(() => this.spinner.show())
+      ).subscribe(
+        () => {
+          this.palestranteService.put({ ...this.form.value })
+            .subscribe(
+              () => {
+                this.situacaoDoForm = 'Minicurriculo foi atualizado!';
+                this.corDaDescricao = 'text-sucess';
+              },
+              () => {
+                this.toastr.error('Erro ao tentar atualizar Palestrante', 'Erro')
+              }
+            )
+            .add(() => this.spinner.hide());
+
+        });
+  }
 }
