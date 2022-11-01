@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { PalestranteService } from '@app/services/palestrante.service';
 import { ToastrService } from 'ngx-toastr';
+import { Palestrante } from '@app/models/Palestrante';
 
 @Component({
   selector: 'app-palestrante-detalhe',
@@ -25,12 +26,30 @@ export class PalestranteDetalheComponent implements OnInit {
   ngOnInit() {
     this.validation();
     this.verificaForm();
+    this.carregarPalestrante();
   }
 
   private validation(): void {
     this.form = this.fb.group({
       miniCurriculo: ['']
     })
+  }
+
+  private carregarPalestrante(): void {
+    this.spinner.show();
+
+    this.palestranteService
+      .getPalestrante()
+      .subscribe(
+        (palestrante: Palestrante) => {
+          this.form.patchValue(palestrante);
+        },
+        (error: any) => {
+          this.toastr.error('Erro ao Carregar o Palestrante', 'Erro');
+        }
+      )
+
+
   }
 
   public get f(): any {
@@ -53,6 +72,10 @@ export class PalestranteDetalheComponent implements OnInit {
               () => {
                 this.situacaoDoForm = 'Minicurriculo foi atualizado!';
                 this.corDaDescricao = 'text-sucess';
+
+                setTimeout(() => {
+
+                }, 2000);
               },
               () => {
                 this.toastr.error('Erro ao tentar atualizar Palestrante', 'Erro')
