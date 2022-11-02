@@ -1,3 +1,4 @@
+import { RedesSociaisComponent } from './components/redesSociais/redesSociais.component';
 import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
@@ -62,7 +63,8 @@ defineLocale('pt-br', ptBrLocale);
     LoginComponent,
     RegistrationComponent,
     PalestranteListaComponent,
-    PalestranteDetalheComponent
+    PalestranteDetalheComponent,
+    RedesSociaisComponent
   ],
   imports: [
     BrowserModule,
