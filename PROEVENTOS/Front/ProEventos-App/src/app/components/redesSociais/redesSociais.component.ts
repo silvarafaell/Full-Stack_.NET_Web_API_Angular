@@ -4,6 +4,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RedeSocial } from '@app/models/RedeSocial';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { RedeSocialService } from '@app/services/redeSocial.service';
 
 @Component({
   selector: 'app-redesSociais',
@@ -29,6 +30,9 @@ export class RedesSociaisComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.eventoId === 0) {
+      this.carregarRedeSocial('Palestrante');
+    }
     this.validation();
   }
 
