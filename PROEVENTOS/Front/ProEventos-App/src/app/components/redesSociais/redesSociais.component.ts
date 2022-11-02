@@ -1,6 +1,6 @@
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RedeSocial } from '@app/models/RedeSocial';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -13,7 +13,7 @@ import { RedeSocialService } from '@app/services/redeSocial.service';
 })
 export class RedesSociaisComponent implements OnInit {
   modalRef: BsModalRef;
-  public eventoId = 0;
+  @Input() eventoId = 0;
   public formRS: FormGroup;
   public redeSocialAtual = { id: 0, nome: '', indice: 0 };
 
@@ -81,15 +81,19 @@ export class RedesSociaisComponent implements OnInit {
   }
 
   public salvarRedesSociais(): void {
-    if (this.formRS.controls.redeSocial.valid) {
+    let origem = 'palestrante';
+
+    if (this.eventoId !== 0) origem = 'evento';
+
+    if (this.formRS.controls.redesSociais.valid) {
       this.spinner.show();
-      this.redeSocialService.saveRedeSocial(this.eventoId, this.formRS.value.lotes)
+      this.redeSocialService.saveRedesSociais(origem, this.eventoId, this.formRS.value.redesSociais)
         .subscribe(
           () => {
-            this.toastr.success('Lotes salvos com Sucesso!', 'Sucesso');
+            this.toastr.success('Redes Sociais foram salvos com Sucesso!', 'Sucesso');
           },
           (error: any) => {
-            this.toastr.error('Erro ao tentar salvar lotes.', 'Erro');
+            this.toastr.error('Erro ao tentar salvar Redes Sociais.', 'Erro');
             console.error(error);
           }
         ).add(() => this.spinner.hide());
@@ -108,10 +112,14 @@ export class RedesSociaisComponent implements OnInit {
   }
 
   confirmDeleteRedeSocial(): void {
+    let origem = 'palestrante';
+
     this.modalRef.hide();
     this.spinner.show();
 
-    this.redeSocialService.deleteRedeSocial(this.eventoId, this.redeSocialAtual.id)
+    if (this.eventoId !== 0) origem = 'evento';
+
+    this.redeSocialService.deleteRedeSocial(origem, this.eventoId, this.redeSocialAtual.id)
       .subscribe(
         () => {
           this.toastr.success('Rede Social deletado com sucesso', 'Sucesso');
