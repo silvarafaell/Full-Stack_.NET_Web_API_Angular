@@ -18,7 +18,7 @@ export class RedesSociaisComponent implements OnInit {
   public redeSocialAtual = { id: 0, nome: '', indice: 0 };
 
   public get redesSociais(): FormArray {
-    return this.formRS.get('lotes') as FormArray;
+    return this.formRS.get('redesSociais') as FormArray;
   }
 
   constructor(
@@ -31,9 +31,27 @@ export class RedesSociaisComponent implements OnInit {
 
   ngOnInit() {
     if (this.eventoId === 0) {
-      this.carregarRedeSocial('Palestrante');
+      this.carregarRedesSociais('Palestrante');
     }
     this.validation();
+  }
+
+  private carregarRedesSociais(origem: string, id: number = 0): void {
+    this.spinner.show();
+
+    this.redeSocialService
+      .getRedesSociais(origem, id)
+      .subscribe(
+        (redeSocialRetorno: RedeSocial[]) => {
+          redeSocialRetorno.forEach((redeSocial) => {
+            this.redesSociais.push(this.criarRedeSocial(redeSocial))
+          });
+        },
+        (error: any) => {
+          this.toastr.error('Erro ao tentar carregar Rede Social', 'Erro');
+          console.error(error);
+        }
+      ).add(() => this.spinner.hide());
   }
 
   public validation(): void {
@@ -62,7 +80,7 @@ export class RedesSociaisComponent implements OnInit {
     return { 'is-invalid': campoForm.errors && campoForm.touched };
   }
 
-  public salvarRedeSociais(): void {
+  public salvarRedesSociais(): void {
     if (this.formRS.controls.redeSocial.valid) {
       this.spinner.show();
       this.redeSocialService.saveRedeSocial(this.eventoId, this.formRS.value.lotes)
