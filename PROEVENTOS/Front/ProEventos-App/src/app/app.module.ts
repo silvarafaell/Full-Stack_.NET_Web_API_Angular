@@ -1,3 +1,6 @@
+import { RedesSociaisComponent } from './components/redesSociais/redesSociais.component';
+import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
+import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AccountService } from './services/account.service';
 import { NgxCurrencyModule } from 'ngx-currency';
@@ -36,6 +39,8 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { HomeComponent } from './components/home/home.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -47,6 +52,7 @@ defineLocale('pt-br', ptBrLocale);
     ContatosComponent,
     DashboardComponent,
     PerfilComponent,
+    PerfilDetalheComponent,
     NavComponent,
     TituloComponent,
     DateTimeFormatPipe,
@@ -55,7 +61,10 @@ defineLocale('pt-br', ptBrLocale);
     HomeComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    PalestranteListaComponent,
+    PalestranteDetalheComponent,
+    RedesSociaisComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +79,7 @@ defineLocale('pt-br', ptBrLocale);
     PaginationModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
+    TabsModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
